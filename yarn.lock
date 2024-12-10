@@ -3399,9 +3399,9 @@
     "@react-types/shared" "^3.26.0"
 
 "@ronaldocreis/wishlist-schema@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ronaldocreis/wishlist-schema/-/wishlist-schema-1.0.2.tgz#25c9d2e92697448ed482f155ac3d936554cb47e8"
-  integrity sha512-CZ9qh2CXGofKrNY9LHmLaroybCizey9usYRL6oAG4upeVx2/L3FhA70JQAi+nYw5iChEafOvYna/g7503bJlbQ==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@ronaldocreis/wishlist-schema/-/wishlist-schema-1.0.6.tgz#b517a88260bb8a743322035a810bbb5c1807fb07"
+  integrity sha512-rxVqgUDXY3ziBNJlJwQiabzGJ7MYbm5mNSkeVFkW8MXozd08HVF6AT/KVCN1s/oE0zd6xy9E3PVruA5hPRCCWw==
   dependencies:
     zod "^3.23.8"
 
@@ -6667,6 +6667,6 @@ yocto-queue@^0.1.0:
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
 zod@^3.23.8:
-  version "3.23.8"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.23.8.tgz#e37b957b5d52079769fb8097099b592f0ef4067d"
-  integrity sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==
+  version "3.24.0"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.0.tgz#babb32313f7c5f4a99812feee806d186b4f76bde"
+  integrity sha512-Hz+wiY8yD0VLA2k/+nsg2Abez674dDGTai33SwNvMPuf9uIrBC9eFgIMQxBBbHFxVXi8W+5nX9DcAh9YNSQm/w==
