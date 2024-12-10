@@ -4,12 +4,13 @@ import { api } from '../api';
 
 const USER_PATH = '/users' as const;
 
-const findByUsername = async (params: { username: User['username'] }) => {
-  const user = await api.get(`${USER_PATH}/${params.username}`);
+const findByUsername = async (username: User['username']) => {
+  const response = await api.get<User>(`${USER_PATH}/${username}`);
 
-  return user;
+  return response.data;
 };
 
 export const userService = {
+  USER_PATH,
   findByUsername,
 };
