@@ -21,13 +21,13 @@ const Navbar = () => {
       </h1>
       <nav className="flex flex-col items-center xl:items-start gap-2">
         {navItems.map((item) => {
-          const active = pathname === item.href;
+          const active = pathname.startsWith(item.href);
 
           return (
             <Tooltip key={item.href} isDisabled={breakpoint.md}>
               <Button
                 fullWidth
-                as={active ? Button : Link}
+                as={Link}
                 className="xl:justify-start"
                 href={item.href}
                 startContent={
