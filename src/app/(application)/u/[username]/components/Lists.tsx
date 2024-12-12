@@ -3,6 +3,9 @@ import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
 import { Lists as ListsType } from '@ronaldocreis/wishlist-schema';
 import Link from 'next/link';
+import { currentUser } from '@clerk/nextjs/server';
+
+import NewListCard from './NewListCard';
 
 type ListsProps = {
   lists: ListsType;
@@ -13,10 +16,14 @@ const itemsLabel: Record<number, string> = {
   0: 'Nenhum item',
   1: '1 item',
 };
-const Lists = ({ lists, username }: ListsProps) => {
+const Lists = async ({ lists, username }: ListsProps) => {
+  const user = await currentUser();
+  const isTheOwner = user?.username === username;
+
   return (
     <>
       <div className="grid grid-cols-3 gap-4">
+        {isTheOwner && <NewListCard />}
         {lists.map((list) => {
           const notNullProductImages = list.productImages.filter(
             (image) => image !== null && image !== undefined
@@ -25,6 +32,7 @@ const Lists = ({ lists, username }: ListsProps) => {
           return (
             <Card
               key={list.id}
+              isHoverable
               isPressable
               as={Link}
               className="border"
