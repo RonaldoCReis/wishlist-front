@@ -1,30 +1,42 @@
+'use client';
 import React from 'react';
 import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
-import { Lists as ListsType } from '@ronaldocreis/wishlist-schema';
 import Link from 'next/link';
-import { currentUser } from '@clerk/nextjs/server';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { User } from '@clerk/nextjs/dist/types/server';
 
 import NewListCard from './NewListCard';
 
-type ListsProps = {
-  lists: ListsType;
-  username: string;
-};
+import { userService } from '@/api/services/user';
 
 const itemsLabel: Record<number, string> = {
   0: 'Nenhum item',
   1: '1 item',
 };
-const Lists = async ({ lists, username }: ListsProps) => {
-  const user = await currentUser();
-  const isTheOwner = user?.username === username;
+
+type ListsProps = {
+  clerkUser: User | null;
+};
+
+const Lists = ({ clerkUser }: ListsProps) => {
+  const params = useParams();
+
+  const { username } = params;
+
+  const isTheOwner = clerkUser?.username === username;
+
+  const { data: user } = useQuery({
+    queryKey: ['user', username],
+    queryFn: () => userService.findByUsername(username as string),
+  });
 
   return (
     <>
       <div className="grid grid-cols-3 gap-4">
         {isTheOwner && <NewListCard />}
-        {lists.map((list) => {
+        {user?.lists.map((list) => {
           const notNullProductImages = list.productImages.filter(
             (image) => image !== null && image !== undefined
           );
@@ -42,7 +54,6 @@ const Lists = async ({ lists, username }: ListsProps) => {
               <CardBody>
                 <Image
                   className="object-cover"
-                  fallbackSrc="https://via.placeholder.com/219x219"
                   height={219}
                   src={notNullProductImages[0]}
                   width={219}

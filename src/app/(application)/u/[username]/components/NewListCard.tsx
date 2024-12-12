@@ -15,7 +15,7 @@ const NewListCard = () => {
         <Card
           isHoverable
           isPressable
-          className="border flex items-center justify-center w-full h-full"
+          className="border flex items-center justify-center w-full h-[305px]"
           shadow="none"
           onPress={onOpen}
         >

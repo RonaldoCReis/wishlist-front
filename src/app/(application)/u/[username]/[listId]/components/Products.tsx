@@ -14,7 +14,7 @@ const Products = ({ products }: ProductsProps) => {
   return (
     <div className="flex flex-col gap-4">
       <NewProductCard />
-      {products.map((product) => {
+      {products?.map((product) => {
         return (
           <Card
             key={product.id}

@@ -12,12 +12,21 @@ import {
 import { X } from '@phosphor-icons/react/dist/ssr';
 import { motion } from 'framer-motion';
 
+import { listService } from '@/api/services/list';
+
 type NewListModalProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 };
 
 const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
+  const handleCreate = () => {
+    listService.create({
+      name: 'Nova Lista',
+      visibility: 'public',
+    });
+  };
+
   return (
     <Modal
       closeButton={
@@ -59,7 +68,7 @@ const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
               <Button color="danger" variant="flat" onPress={onClose}>
                 Cancelar
               </Button>
-              <Button color="primary" onPress={onClose}>
+              <Button color="primary" onPress={handleCreate}>
                 Criar Lista
               </Button>
             </ModalFooter>

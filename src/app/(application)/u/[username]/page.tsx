@@ -1,22 +1,12 @@
+import React from 'react';
+import { currentUser } from '@clerk/nextjs/server';
+
 import Lists from './components/Lists';
 
-import { userService } from '@/api/services/user';
+const UserPage = async () => {
+  const clerkUser = await currentUser();
 
-type Props = {
-  params: {
-    username: string;
-  };
-};
-
-const UserPage = async ({ params }: Props) => {
-  const { username } = await params;
-  const user = await userService.findByUsername(username);
-
-  return (
-    <>
-      <Lists lists={user.lists} username={params.username} />
-    </>
-  );
+  return <Lists clerkUser={JSON.parse(JSON.stringify(clerkUser))} />;
 };
 
 export default UserPage;
