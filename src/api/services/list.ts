@@ -16,8 +16,15 @@ const create = async (list: NewList) => {
   return response;
 };
 
+const remove = async (id: List['id']) => {
+  const response = await api.delete(`${LIST_PATH}/${id}`);
+
+  return response;
+};
+
 export const listService = {
   LIST_PATH,
   findById,
   create,
+  remove,
 };

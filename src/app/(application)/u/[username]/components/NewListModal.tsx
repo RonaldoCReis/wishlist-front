@@ -23,9 +23,10 @@ import { listService } from '@/api/services/list';
 type NewListModalProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  onClose: () => void;
 };
 
-const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
+const NewListModal = ({ isOpen, onOpenChange, onClose }: NewListModalProps) => {
   const params = useParams();
   const { username } = params;
   const queryClient = useQueryClient();
@@ -36,12 +37,14 @@ const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
     },
   });
 
-  const { register, handleSubmit } = useForm<NewList>({
+  const { register, handleSubmit, reset } = useForm<NewList>({
     resolver: zodResolver(NewList),
   });
 
   const onSubmit = (data: NewList) => {
     createList.mutate(data);
+    reset();
+    onClose();
   };
 
   return (
@@ -90,7 +93,7 @@ const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
                 </Select>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
+                <Button color="danger" variant="light" onPress={onClose}>
                   Cancelar
                 </Button>
                 <Button color="primary" type="submit">

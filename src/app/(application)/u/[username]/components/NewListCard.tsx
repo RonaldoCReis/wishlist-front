@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import NewListModal from './NewListModal';
 
 const NewListCard = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   return (
     <>
@@ -29,7 +29,11 @@ const NewListCard = () => {
           </div>
         </Card>
       </motion.div>
-      <NewListModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <NewListModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpenChange={onOpenChange}
+      />
     </>
   );
 };

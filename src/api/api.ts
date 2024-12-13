@@ -20,6 +20,12 @@ class Api {
 
   private getHeaders() {
     return {
+      Authorization: `Bearer ${this.token}`,
+      'ngrok-skip-browser-warning': 'true',
+    };
+  }
+  private getHeadersJson() {
+    return {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
       'ngrok-skip-browser-warning': 'true',
@@ -29,7 +35,7 @@ class Api {
   async get<T>(path: string) {
     const response = await fetch(this.baseURL + path, {
       method: 'GET',
-      headers: this.getHeaders(),
+      headers: this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;
@@ -39,7 +45,7 @@ class Api {
     const response = await fetch(this.baseURL + path, {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: this.getHeaders(),
+      headers: this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;
@@ -49,7 +55,7 @@ class Api {
     const response = await fetch(this.baseURL + path, {
       method: 'PUT',
       body: JSON.stringify(body),
-      headers: this.getHeaders(),
+      headers: this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;
@@ -68,7 +74,7 @@ class Api {
     const response = await fetch(this.baseURL + path, {
       method: 'PATCH',
       body: JSON.stringify(body),
-      headers: this.getHeaders(),
+      headers: this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;
