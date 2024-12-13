@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/localizations": "^3.8.0",
     "@clerk/nextjs": "^6.6.0",
+    "@hookform/resolvers": "^3.9.1",
     "@nextui-org/button": "2.0.38",
     "@nextui-org/card": "^2.0.34",
     "@nextui-org/code": "2.0.33",
@@ -31,6 +32,7 @@
     "@react-aria/visually-hidden": "3.8.12",
     "@ronaldocreis/wishlist-schema": "^1.0.0",
     "@tanstack/react-query": "^5.62.3",
+    "@tanstack/react-query-devtools": "^5.0.0-alpha.91",
     "add": "^2.0.6",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
@@ -41,6 +43,7 @@
     "nextjs-toploader": "^3.7.15",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.54.0",
     "yarn": "^1.22.22"
   },
   "devDependencies": {

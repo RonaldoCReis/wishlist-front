@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import { Metadata, Viewport } from 'next';
 import clsx from 'clsx';
 import NextTopLoader from 'nextjs-toploader';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { Providers } from './providers';
 
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         <NextTopLoader />
         <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
+          <ReactQueryDevtools position="right" />
           {children}
         </Providers>
       </body>

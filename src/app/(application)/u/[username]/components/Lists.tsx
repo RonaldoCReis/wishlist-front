@@ -36,7 +36,7 @@ const Lists = ({ clerkUser }: ListsProps) => {
     <>
       <div className="grid grid-cols-3 gap-4">
         {isTheOwner && <NewListCard />}
-        {user?.lists.map((list) => {
+        {user?.lists?.map((list) => {
           const notNullProductImages = list.productImages.filter(
             (image) => image !== null && image !== undefined
           );

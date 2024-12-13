@@ -152,6 +152,11 @@
   dependencies:
     tslib "2"
 
+"@hookform/resolvers@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.9.1.tgz#a23883c40bfd449cb6c6ab5a0fa0729184c950ff"
+  integrity sha512-ud2HqmGBM0P0IABqoskKWI6PEf6ZDDBZkFqe2Vnl+mTHCEHzr3ISjjZyCwTjC/qpL25JC9aIDkloQejvMeq0ug==
+
 "@humanwhocodes/config-array@^0.13.0":
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.13.0.tgz#fb907624df3256d04b9aa2df50d7aa97ec648748"
@@ -3399,9 +3404,9 @@
     "@react-types/shared" "^3.26.0"
 
 "@ronaldocreis/wishlist-schema@^1.0.0":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@ronaldocreis/wishlist-schema/-/wishlist-schema-1.0.8.tgz#e6af92f7422f1cb29d1b6aa3ef66014f45c6865b"
-  integrity sha512-MFZYc7eGV5BLwG+jMTEJHjWyeVnikregLcgWpwj533VKEbdAoZP38aOZp3kt4HH4WhxC85tC54gU1tlhuREvOA==
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@ronaldocreis/wishlist-schema/-/wishlist-schema-1.0.9.tgz#a8218b8e886007d09bc839efc4b1333fc8fc7396"
+  integrity sha512-RtXNwFUEnWvhXko/5WnGzKhK5w8mmqHQCKFfNIWBvtYYYFIVTUfTfbE8ZrCErH6qQ1sqxXZ2zhA+LH2hTvzr3g==
   dependencies:
     zod "^3.23.8"
 
@@ -3438,6 +3443,18 @@
   version "5.62.3"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.62.3.tgz#7cfde68f7d78807faebee2a2bb1e31b81067f46b"
   integrity sha512-Jp/nYoz8cnO7kqhOlSv8ke/0MJRJVGuZ0P/JO9KQ+f45mpN90hrerzavyTKeSoT/pOzeoOUkv1Xd0wPsxAWXfg==
+
+"@tanstack/query-devtools@5.0.0-alpha.89":
+  version "5.0.0-alpha.89"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.0.0-alpha.89.tgz#cf7ecf5a9a5b302becbf0f4d1545f43f231930b4"
+  integrity sha512-/D7D2xq+vW1qkz/AJyD44ACsHLNtDC5/tRqozhIlpu/OOEM1RkjMiHv2IAJmWgJJ1cWm80qA5UXT4dropkUyMw==
+
+"@tanstack/react-query-devtools@^5.0.0-alpha.91":
+  version "5.0.0-alpha.91"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.0.0-alpha.91.tgz#63ce69133800f5257ee27a106ac88dc028b870f5"
+  integrity sha512-nFsLJowDDuvVRX8j6iEyBZaOcD2hwHDQhbn1GnkHpZqg3EuroVIi7lKZNpzcDyKLa7a8pZTdmMbZ6Ki51JnP7w==
+  dependencies:
+    "@tanstack/query-devtools" "5.0.0-alpha.89"
 
 "@tanstack/react-query@^5.62.3":
   version "5.62.3"
@@ -5851,6 +5868,11 @@ react-dom@18.3.1:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
+
+react-hook-form@^7.54.0:
+  version "7.54.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.54.0.tgz#46bd9142d65fd16ac064a2bbf4dc0333e2d6840d"
+  integrity sha512-PS05+UQy/IdSbJNojBypxAo9wllhHgGmyr8/dyGQcPoiMf3e7Dfb9PWYVRco55bLbxH9S+1yDDJeTdlYCSxO3A==
 
 react-is@^16.13.1:
   version "16.13.1"

@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import {
@@ -11,6 +12,11 @@ import {
 } from '@nextui-org/react';
 import { X } from '@phosphor-icons/react/dist/ssr';
 import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { NewList } from '@ronaldocreis/wishlist-schema';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 
 import { listService } from '@/api/services/list';
 
@@ -20,11 +26,22 @@ type NewListModalProps = {
 };
 
 const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
-  const handleCreate = () => {
-    listService.create({
-      name: 'Nova Lista',
-      visibility: 'public',
-    });
+  const params = useParams();
+  const { username } = params;
+  const queryClient = useQueryClient();
+  const createList = useMutation({
+    mutationFn: listService.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', username] });
+    },
+  });
+
+  const { register, handleSubmit } = useForm<NewList>({
+    resolver: zodResolver(NewList),
+  });
+
+  const onSubmit = (data: NewList) => {
+    createList.mutate(data);
   };
 
   return (
@@ -47,31 +64,40 @@ const NewListModal = ({ isOpen, onOpenChange }: NewListModalProps) => {
             className="bg-white rounded-[14px]"
             layoutId="newListLayout"
           >
-            <ModalHeader>
-              <motion.span className="font-medium" layoutId="newListTitle">
-                Nova Lista
-              </motion.span>
-            </ModalHeader>
-            <ModalBody>
-              <Input isRequired label="Nome da lista" variant="bordered" />
-              <Select
-                isRequired
-                defaultSelectedKeys={['public']}
-                label="Visibilidade"
-                variant="bordered"
-              >
-                <SelectItem key="public">Pública</SelectItem>
-                <SelectItem key="private">Privada</SelectItem>
-              </Select>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onClose}>
-                Cancelar
-              </Button>
-              <Button color="primary" onPress={handleCreate}>
-                Criar Lista
-              </Button>
-            </ModalFooter>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <ModalHeader>
+                <motion.span className="font-medium" layoutId="newListTitle">
+                  Nova Lista
+                </motion.span>
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  isRequired
+                  required
+                  label="Nome da lista"
+                  variant="bordered"
+                  {...register('name', { required: true, min: 1 })}
+                />
+                <Select
+                  isRequired
+                  defaultSelectedKeys={['public']}
+                  label="Visibilidade"
+                  variant="bordered"
+                  {...register('visibility', { required: true })}
+                >
+                  <SelectItem key="public">Pública</SelectItem>
+                  <SelectItem key="private">Privada</SelectItem>
+                </Select>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="flat" onPress={onClose}>
+                  Cancelar
+                </Button>
+                <Button color="primary" type="submit">
+                  Criar Lista
+                </Button>
+              </ModalFooter>
+            </form>
           </motion.div>
         )}
       </ModalContent>

@@ -9,39 +9,6 @@
 
 // export const api = withInterceptors(axiosInstance);
 
-// type CreateApiProps = {
-//   token: string;
-//   baseURL: string;
-// };
-
-// export const createApi = ({ baseURL, token }: CreateApiProps) => {
-//   const headers = {
-//     'Content-Type': 'application/json',
-//     Authorization: `Bearer ${token}`,
-//   };
-
-//   return {
-//     get: async <T>(path: string) => {
-//       const response = await fetch(baseURL + path, {
-//         method: 'GET',
-//         headers,
-//       });
-
-//       return response.json() as Promise<T>;
-//     },
-
-//     post: async <T>(path: string, body: any) => {
-//       const response = await fetch(baseURL + path, {
-//         method: 'POST',
-//         headers,
-//         body: JSON.stringify(body),
-//       });
-
-//       return response.json() as Promise<T>;
-//     },
-//   };
-// };
-
 class Api {
   private baseURL: string;
   private token: string;
@@ -55,6 +22,7 @@ class Api {
     return {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token}`,
+      'ngrok-skip-browser-warning': 'true',
     };
   }
 
@@ -68,7 +36,6 @@ class Api {
   }
 
   async post<T>(path: string, body: any) {
-    console.log(this.token);
     const response = await fetch(this.baseURL + path, {
       method: 'POST',
       body: JSON.stringify(body),
@@ -108,7 +75,6 @@ class Api {
   }
 
   setToken(token: string) {
-    console.log('setting token', token);
     this.token = token;
   }
 }
