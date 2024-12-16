@@ -1,23 +1,23 @@
+'use client';
 import { Input } from '@nextui-org/input';
-import { MagnifyingGlass, ShareNetwork } from '@phosphor-icons/react/dist/ssr';
+import { DotsThree, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@nextui-org/button';
-import { Tooltip } from '@nextui-org/tooltip';
+import { useParams } from 'next/navigation';
+
+import ListActions from '../components/ListActions';
 
 import OrderBySelect from './components/OrderBySelect';
 import Products from './components/Products';
 
-import { listService } from '@/api/services/list';
+import { useList } from '@/hooks/queries/useList';
 
-type ListPageProps = {
-  params: {
-    username: string;
-    listId: string;
-  };
-};
+const ListPage = () => {
+  const { listId } = useParams();
+  const { data: list } = useList(listId as string);
 
-const ListPage = async ({ params }: ListPageProps) => {
-  const { listId } = await params;
-  const list = await listService.findById(listId);
+  if (!list) {
+    return null;
+  }
 
   return (
     <>
@@ -30,18 +30,12 @@ const ListPage = async ({ params }: ListPageProps) => {
             startContent={<MagnifyingGlass size={24} />}
           />
           <OrderBySelect />
-          <Tooltip
-            showArrow
-            closeDelay={0}
-            content="Compartilhar Lista"
-            placement="right"
-            radius="sm"
-            shadow="sm"
-          >
+
+          <ListActions list={list}>
             <Button isIconOnly variant="flat">
-              <ShareNetwork size={20} />
+              <DotsThree size={24} />
             </Button>
-          </Tooltip>
+          </ListActions>
         </div>
       </div>
       <Products products={list.products} />

@@ -1,13 +1,12 @@
 'use client';
 import { Card } from '@nextui-org/card';
 import { Plus } from '@phosphor-icons/react/dist/ssr';
-import { useDisclosure } from '@nextui-org/react';
 import { motion } from 'framer-motion';
 
-import NewListModal from './NewListModal';
+import { useNewListModal } from '@/state/newListModal';
 
 const NewListCard = () => {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { openNewListModal } = useNewListModal();
 
   return (
     <>
@@ -17,7 +16,7 @@ const NewListCard = () => {
           isPressable
           className="border flex items-center justify-center w-full h-[305px]"
           shadow="none"
-          onPress={onOpen}
+          onPress={() => openNewListModal(null)}
         >
           <div className="flex justify-center items-center flex-col gap-1 text-gray-600">
             <motion.div layoutId="newListIcon">
@@ -29,11 +28,6 @@ const NewListCard = () => {
           </div>
         </Card>
       </motion.div>
-      <NewListModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpenChange={onOpenChange}
-      />
     </>
   );
 };

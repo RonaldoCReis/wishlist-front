@@ -1,19 +1,22 @@
+import { List, User } from '@ronaldocreis/wishlist-schema';
 import { create } from 'zustand';
+
+export type EditingList = User['lists'][number] | List | null;
 
 type newListModalState = {
   isOpen: boolean;
-  editId: string | null;
-  open: (editId: string | null) => void;
+  editingList: EditingList;
+  openNewListModal: (editingList: EditingList) => void;
   close: () => void;
 };
 
 export const useNewListModal = create<newListModalState>((set) => ({
   isOpen: false,
-  editId: null,
-  open: (editId: string | null) => {
-    set({ isOpen: true, editId });
+  editingList: null,
+  openNewListModal: (editingList: EditingList) => {
+    set({ isOpen: true, editingList });
   },
   close: () => {
-    set({ isOpen: false, editId: null });
+    set({ isOpen: false, editingList: null });
   },
 }));

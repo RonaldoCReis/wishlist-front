@@ -15,62 +15,69 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { NewList } from '@ronaldocreis/wishlist-schema';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
-import { listService } from '@/api/services/list';
+import { useNewListModal } from '@/state/newListModal';
+import { useCreateList, useUpdateList } from '@/hooks/queries/useList';
 
-type NewListModalProps = {
-  isOpen: boolean;
-  onOpenChange: (isOpen: boolean) => void;
-  onClose: () => void;
-};
+const NewListModal = () => {
+  const { isOpen, editingList, close } = useNewListModal();
 
-const NewListModal = ({ isOpen, onOpenChange, onClose }: NewListModalProps) => {
-  const params = useParams();
-  const { username } = params;
-  const queryClient = useQueryClient();
-  const createList = useMutation({
-    mutationFn: listService.create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user', username] });
-    },
-  });
+  const createList = useCreateList();
+  const updateList = useUpdateList();
 
   const { register, handleSubmit, reset } = useForm<NewList>({
     resolver: zodResolver(NewList),
   });
 
   const onSubmit = (data: NewList) => {
-    createList.mutate(data);
+    if (editingList) {
+      updateList.mutate({ id: editingList.id, list: data });
+    } else {
+      createList.mutate(data);
+    }
     reset();
-    onClose();
+    close();
   };
+
+  useEffect(() => {
+    if (editingList) {
+      reset({
+        name: editingList.name,
+        visibility: editingList.visibility,
+      });
+    } else reset();
+  }, [editingList, reset]);
 
   return (
     <Modal
       closeButton={
-        <motion.div layoutId="newListIcon" style={{ right: '0.25rem' }}>
+        <motion.div
+          layoutId={editingList ? 'editListIcon' : 'newListIcon'}
+          style={{ right: '0.25rem' }}
+        >
           <X />
         </motion.div>
       }
       isOpen={isOpen}
-      placement="auto"
-      onOpenChange={onOpenChange}
+      onClose={close}
     >
       <ModalContent
         className="bg-transparent shadow-none"
         style={{ overflow: 'visible' }}
       >
-        {(onClose) => (
+        {() => (
           <motion.div
             className="bg-white rounded-[14px]"
-            layoutId="newListLayout"
+            layoutId={editingList ? 'editListLayout' : 'newListLayout'}
           >
             <form onSubmit={handleSubmit(onSubmit)}>
               <ModalHeader>
-                <motion.span className="font-medium" layoutId="newListTitle">
-                  Nova Lista
+                <motion.span
+                  className="font-medium"
+                  layoutId={editingList ? 'editListTitle' : 'newListTitle'}
+                >
+                  {editingList ? 'Editar' : 'Nova'} Lista
                 </motion.span>
               </ModalHeader>
               <ModalBody>
@@ -93,11 +100,11 @@ const NewListModal = ({ isOpen, onOpenChange, onClose }: NewListModalProps) => {
                 </Select>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="danger" variant="light" onPress={close}>
                   Cancelar
                 </Button>
                 <Button color="primary" type="submit">
-                  Criar Lista
+                  {editingList ? 'Editar' : 'Nova'} Lista
                 </Button>
               </ModalFooter>
             </form>

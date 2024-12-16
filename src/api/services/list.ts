@@ -1,4 +1,4 @@
-import { List, NewList } from '@ronaldocreis/wishlist-schema';
+import { List, NewList, UpdateList } from '@ronaldocreis/wishlist-schema';
 
 import { api } from '../api';
 
@@ -22,9 +22,16 @@ const remove = async (id: List['id']) => {
   return response;
 };
 
+const update = async ({ list, id }: { id: List['id']; list: UpdateList }) => {
+  const response = await api.put<List>(`${LIST_PATH}/${id}`, list);
+
+  return response;
+};
+
 export const listService = {
   LIST_PATH,
   findById,
   create,
   remove,
+  update,
 };
