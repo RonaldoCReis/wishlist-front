@@ -32,11 +32,15 @@ class Api {
     };
   }
 
-  async get<T>(path: string) {
-    const response = await fetch(this.baseURL + path, {
-      method: 'GET',
-      headers: this.getHeadersJson(),
-    });
+  async get<T>(path: string, params?: {}) {
+    const response = await fetch(
+      `
+      ${this.baseURL}${path}?${new URLSearchParams(params).toString()}`,
+      {
+        method: 'GET',
+        headers: this.getHeadersJson(),
+      }
+    );
 
     return response.json() as Promise<T>;
   }
