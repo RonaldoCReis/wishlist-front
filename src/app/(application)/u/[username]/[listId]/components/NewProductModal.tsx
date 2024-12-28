@@ -2,6 +2,7 @@
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import {
+  Form,
   Image,
   Modal,
   ModalBody,
@@ -10,20 +11,22 @@ import {
   ModalHeader,
   Select,
   SelectItem,
+  Textarea,
 } from '@nextui-org/react';
 import { X } from '@phosphor-icons/react/dist/ssr';
 import { motion } from 'framer-motion';
 import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { NewProduct, UpdateProduct } from '@ronaldocreis/wishlist-schema';
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { getOpenGraphInfo } from '../utils/getOpenGraphInfo';
 
 import { useNewProductModal } from '@/state/newProductModal';
 import { useOpenGraph } from '@/hooks/queries/useOpenGraph';
 import { useCreateProduct, useUpdateProduct } from '@/hooks/queries/useProduct';
+import { formatErrors } from '@/utils/formatErrors';
 
 type ProductForm = NewProduct | UpdateProduct;
 
@@ -52,6 +55,7 @@ const NewProductModal = () => {
     handleSubmit,
     reset,
     watch,
+    getValues,
     setValue,
     control,
     formState: { errors },
@@ -60,6 +64,8 @@ const NewProductModal = () => {
     defaultValues: {
       listId,
     },
+    mode: 'onChange',
+    shouldFocusError: true,
   });
 
   const productUrl = watch('url');
@@ -75,13 +81,9 @@ const NewProductModal = () => {
     close();
   };
 
-  useEffect(() => {
-    console.log(listId);
-    console.log(errors);
-  }, [errors]);
+  const onSubmit = () => {
+    const data = getValues();
 
-  const onSubmit = (data: ProductForm) => {
-    console.log('teste');
     if (editingProduct) {
       updateProduct.mutate({ id: editingProduct.id, product: data });
     } else {
@@ -92,13 +94,7 @@ const NewProductModal = () => {
 
   useEffect(() => {
     if (editingProduct) {
-      reset({
-        imageUrl: editingProduct.imageUrl,
-        name: editingProduct.name,
-        price: editingProduct.price,
-        store: editingProduct.store,
-        url: editingProduct.url,
-      });
+      reset(editingProduct);
     } else reset();
   }, [editingProduct, reset]);
 
@@ -136,7 +132,11 @@ const NewProductModal = () => {
             className="bg-white rounded-[14px]"
             layoutId={editingProduct ? 'editListLayout' : 'newListLayout'}
           >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Form
+              className="items-stretch"
+              validationErrors={formatErrors(errors)}
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <ModalHeader>
                 <motion.span
                   className="font-medium"
@@ -157,14 +157,10 @@ const NewProductModal = () => {
                       control={control}
                       name="imageUrl"
                       render={({ field }) => (
-                        <Input
-                          label="URL da imagem"
-                          {...field}
-                          value={field.value ?? ''}
-                        />
+                        <Input label="URL da imagem" {...field} />
                       )}
                     />
-                    <div className="bg-[url('https://placehold.co/300x300?text=Hello+World')] aspect-square mt-4 rounded-2xl bg-cover">
+                    <div className="bg-[url('https://placehold.co/300x300?text=Insira+a+imagem')] aspect-square mt-4 rounded-2xl bg-cover">
                       <Image
                         removeWrapper
                         alt={editingProduct?.name}
@@ -182,7 +178,6 @@ const NewProductModal = () => {
                       render={({ field }) => (
                         <Input isRequired label="Nome" {...field} />
                       )}
-                      rules={{ required: true }}
                     />
                     <Controller
                       control={control}
@@ -211,6 +206,11 @@ const NewProductModal = () => {
                           }
                           {...field}
                           value={field.value?.toString() || ''}
+                          onChange={(event) => {
+                            if (!isNaN(+event.target.value)) {
+                              field.onChange(+event.target.value);
+                            }
+                          }}
                         />
                       )}
                     />
@@ -219,20 +219,34 @@ const NewProductModal = () => {
                       control={control}
                       name="store"
                       render={({ field }) => (
-                        <Input
-                          label="Nome da Loja"
+                        <Input label="Nome da Loja" {...field} />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="priority"
+                      render={({ field }) => (
+                        <Select label="Prioridade" {...field}>
+                          {priorities.map((priority) => (
+                            <SelectItem key={priority.key}>
+                              {priority.label}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="description"
+                      render={({ field }) => (
+                        <Textarea
+                          className="h-full [&>div]:!h-full"
+                          label="Observações"
+                          placeholder='Ex: "Tamanho M", "Cor Azul"'
                           {...field}
-                          value={field.value ?? ''}
                         />
                       )}
                     />
-                    <Select label="Prioridade" {...register('priority')}>
-                      {priorities.map((priority) => (
-                        <SelectItem key={priority.key}>
-                          {priority.label}
-                        </SelectItem>
-                      ))}
-                    </Select>
                   </div>
                 </div>
               </ModalBody>
@@ -244,7 +258,7 @@ const NewProductModal = () => {
                   {editingProduct ? 'Editar' : 'Criar'} Produto
                 </Button>
               </ModalFooter>
-            </form>
+            </Form>
           </motion.div>
         )}
       </ModalContent>

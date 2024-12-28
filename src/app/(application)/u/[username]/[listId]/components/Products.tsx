@@ -28,11 +28,17 @@ const Products = ({ products }: ProductsProps) => {
             target="_blank"
           >
             <CardBody className="flex-row items-start gap-4">
-              <Image className="size-28" src={product.imageUrl ?? undefined} />
+              <Image
+                className="size-28 object-cover min-w-28"
+                src={product.imageUrl ?? undefined}
+              />
               <div className="flex flex-col justify-between h-full">
                 <div>
-                  <h3>{product.name}</h3>
+                  <h3 className="line-clamp-1">{product.name}</h3>
                   <h4 className="text-sm text-gray-800">{product.store}</h4>
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {product.description}
+                  </p>
                 </div>
                 <span className="text-gray-700">
                   R$ {product.price?.toFixed(2)}
