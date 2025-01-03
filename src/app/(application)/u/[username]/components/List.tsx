@@ -42,7 +42,7 @@ const List = ({ list }: ListProps) => {
           src={notNullProductImages[0]}
           width={219}
         />
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-end mt-4">
           <div>
             <h3 className="font-medium ">{list.name}</h3>
             <span className="text-sm text-gray-500">

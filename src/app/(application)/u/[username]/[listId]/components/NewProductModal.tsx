@@ -49,7 +49,13 @@ const NewProductModal = () => {
   const { isOpen, editingProduct, close } = useNewProductModal();
 
   const params = useParams();
-  const listId = params.listId as string;
+  const listIdParam = params.listId as string;
+  const editingProductListId =
+    (editingProduct && 'listId' in editingProduct && editingProduct?.listId) ||
+    null;
+
+  const listId = editingProductListId || listIdParam;
+
   const {
     register,
     handleSubmit,
@@ -84,6 +90,8 @@ const NewProductModal = () => {
   const onSubmit = () => {
     const data = getValues();
 
+    console.log(data);
+
     if (editingProduct) {
       updateProduct.mutate({ id: editingProduct.id, product: data });
     } else {
@@ -94,7 +102,7 @@ const NewProductModal = () => {
 
   useEffect(() => {
     if (editingProduct) {
-      reset(editingProduct);
+      reset({ ...editingProduct, listId });
     } else reset();
   }, [editingProduct, reset]);
 
@@ -244,6 +252,7 @@ const NewProductModal = () => {
                           label="Observações"
                           placeholder='Ex: "Tamanho M", "Cor Azul"'
                           {...field}
+                          value={field.value || ''}
                         />
                       )}
                     />
@@ -254,7 +263,7 @@ const NewProductModal = () => {
                 <Button color="danger" variant="light" onPress={handleClose}>
                   Cancelar
                 </Button>
-                <Button color="primary" type="submit" variant="light">
+                <Button color="primary" type="submit" variant="solid">
                   {editingProduct ? 'Editar' : 'Criar'} Produto
                 </Button>
               </ModalFooter>

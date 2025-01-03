@@ -8,25 +8,21 @@ import {
 } from '@nextui-org/react';
 import { Copy, Pencil, Trash } from '@phosphor-icons/react/dist/ssr';
 import React, { ReactNode } from 'react';
-import { useParams } from 'next/navigation';
-import { User } from '@ronaldocreis/wishlist-schema';
+import { Product } from '@ronaldocreis/wishlist-schema';
 
-import { useNewListModal } from '@/state/newListModal';
 import { useConfirmModal } from '@/state/confirmModal';
-import { useRemoveList } from '@/hooks/queries/useList';
+import { useNewProductModal } from '@/state/newProductModal';
+import { useRemoveProduct } from '@/hooks/queries/useProduct';
 
-type ListActionsProps = {
-  list: User['lists'][number];
+type ProductActionsProps = {
+  product: Product;
   children: ReactNode;
 };
 
-const ListActions = ({ list, children }: ListActionsProps) => {
+const ProductActions = ({ product, children }: ProductActionsProps) => {
   const { openConfirmModal } = useConfirmModal();
-  const { openNewListModal } = useNewListModal();
-  const removeList = useRemoveList();
-
-  const params = useParams();
-  const { username } = params;
+  const { openNewProductModal } = useNewProductModal();
+  const removeProduct = useRemoveProduct();
 
   return (
     <Dropdown>
@@ -35,25 +31,23 @@ const ListActions = ({ list, children }: ListActionsProps) => {
         <DropdownSection showDivider title={'Ações'}>
           <DropdownItem
             key="copy"
-            description="Mostre esta lista para o mundo"
+            description="Mostre este produto para o mundo"
             shortcut="⌘C"
             startContent={<Copy size={24} />}
             onClick={() => {
-              navigator.clipboard.writeText(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/u/${username}/${list.id}`
-              );
+              navigator.clipboard.writeText(product.url);
             }}
           >
             Copiar Link
           </DropdownItem>
           <DropdownItem
             key="edit"
-            description="Faça alterações nesta lista"
+            description="Faça alterações neste produto"
             shortcut="⌘E"
             startContent={<Pencil size={24} />}
-            onClick={() => openNewListModal(list)}
+            onClick={() => openNewProductModal(product)}
           >
-            Editar Lista
+            Editar Produto
           </DropdownItem>
         </DropdownSection>
         <DropdownSection>
@@ -61,20 +55,20 @@ const ListActions = ({ list, children }: ListActionsProps) => {
             key="delete"
             className="text-danger"
             color="danger"
-            description="Exclui esta lista permanentemente"
+            description="Exclui este produto permanentemente"
             shortcut="⌘⌫"
             startContent={<Trash size={24} />}
             onClick={() =>
               openConfirmModal({
-                confirmText: 'Apagar Lista',
+                confirmText: 'Apagar Produto',
                 description:
-                  'Ao clicar em "Apagar Lista", esta lista será excluída permanentemente e não poderá ser recuperada.',
-                onConfirm: () => removeList.mutate(list.id),
+                  'Ao clicar em "Apagar Produto", este produto será excluída permanentemente e não poderá ser recuperada.',
+                onConfirm: () => removeProduct.mutate(product.id),
                 title: 'Tem certeza?',
               })
             }
           >
-            Apagar Lista
+            Apagar Produto
           </DropdownItem>
         </DropdownSection>
       </DropdownMenu>
@@ -82,4 +76,4 @@ const ListActions = ({ list, children }: ListActionsProps) => {
   );
 };
 
-export default ListActions;
+export default ProductActions;
