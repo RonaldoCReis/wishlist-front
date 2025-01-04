@@ -14,7 +14,7 @@ import { X } from '@phosphor-icons/react/dist/ssr';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { NewList } from '@ronaldocreis/wishlist-schema';
+import { NewList, NewListSchema } from '@ronaldocreis/wishlist-schema';
 import { useEffect } from 'react';
 
 import { useNewListModal } from '@/state/newListModal';
@@ -27,7 +27,7 @@ const NewListModal = () => {
   const updateList = useUpdateList();
 
   const { register, handleSubmit, reset } = useForm<NewList>({
-    resolver: zodResolver(NewList),
+    resolver: zodResolver(NewListSchema),
   });
 
   const onSubmit = (data: NewList) => {
@@ -83,17 +83,16 @@ const NewListModal = () => {
               <ModalBody>
                 <Input
                   isRequired
-                  required
                   label="Nome da lista"
                   variant="bordered"
-                  {...register('name', { required: true, min: 1 })}
+                  {...register('name')}
                 />
                 <Select
                   isRequired
                   defaultSelectedKeys={['public']}
                   label="Visibilidade"
                   variant="bordered"
-                  {...register('visibility', { required: true })}
+                  {...register('visibility')}
                 >
                   <SelectItem key="public">Pública</SelectItem>
                   <SelectItem key="private">Privada</SelectItem>

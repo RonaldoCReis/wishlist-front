@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-// type Breakpoints = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 type Breakpoint = {
   xs: boolean;
   sm: boolean;
@@ -42,16 +41,6 @@ export const useWindowSize = () => {
   useEffect(() => {
     if (!windowWidth) return;
 
-    // const breakpoints = {
-    //   xs: windowWidth < 640,
-    //   sm: windowWidth < 768,
-    //   md: windowWidth < 1024,
-    //   lg: windowWidth < 1280,
-    //   xl: windowWidth < 1536,
-    //   '2xl': windowWidth >= 1536,
-    // };
-
-    //reverse
     const breakpoints = {
       xs: windowWidth < 640,
       sm: windowWidth >= 640,

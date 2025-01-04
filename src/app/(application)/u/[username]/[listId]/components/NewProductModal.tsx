@@ -16,7 +16,12 @@ import {
 import { X } from '@phosphor-icons/react/dist/ssr';
 import { motion } from 'framer-motion';
 import { Controller, useForm } from 'react-hook-form';
-import { NewProduct, UpdateProduct } from '@ronaldocreis/wishlist-schema';
+import {
+  NewProduct,
+  NewProductSchema,
+  UpdateProduct,
+  UpdateProductSchema,
+} from '@ronaldocreis/wishlist-schema';
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -57,20 +62,20 @@ const NewProductModal = () => {
   const listId = editingProductListId || listIdParam;
 
   const {
-    register,
     handleSubmit,
     reset,
     watch,
-    getValues,
     setValue,
     control,
     formState: { errors },
   } = useForm<ProductForm>({
-    resolver: zodResolver(editingProduct ? UpdateProduct : NewProduct),
+    resolver: zodResolver(
+      editingProduct ? UpdateProductSchema : NewProductSchema
+    ),
     defaultValues: {
       listId,
     },
-    mode: 'onChange',
+    mode: 'all',
     shouldFocusError: true,
   });
 
@@ -87,22 +92,20 @@ const NewProductModal = () => {
     close();
   };
 
-  const onSubmit = () => {
-    const data = getValues();
-
-    console.log(data);
-
+  const onSubmit = (data: NewProduct) => {
     if (editingProduct) {
-      updateProduct.mutate({ id: editingProduct.id, product: data });
+      updateProduct.mutate(
+        { id: editingProduct.id, product: data },
+        { onSuccess: handleClose }
+      );
     } else {
-      createProduct.mutate(data);
+      createProduct.mutate(data, { onSuccess: handleClose });
     }
-    handleClose();
   };
 
   useEffect(() => {
     if (editingProduct) {
-      reset({ ...editingProduct, listId });
+      reset({ ...editingProduct, listId }, { keepDefaultValues: true });
     } else reset();
   }, [editingProduct, reset]);
 
@@ -154,10 +157,17 @@ const NewProductModal = () => {
                 </motion.span>
               </ModalHeader>
               <ModalBody>
-                <Input
-                  isRequired
-                  label="Link do Produto"
-                  {...register('url', { required: true })}
+                <Controller
+                  control={control}
+                  name="url"
+                  render={({ field }) => (
+                    <Input
+                      isRequired
+                      label="Link do Produto"
+                      {...field}
+                      type="url"
+                    />
+                  )}
                 />
                 <div className="flex gap-4 mt-8">
                   <div className="flex-1">
@@ -165,7 +175,11 @@ const NewProductModal = () => {
                       control={control}
                       name="imageUrl"
                       render={({ field }) => (
-                        <Input label="URL da imagem" {...field} />
+                        <Input
+                          label="URL da imagem"
+                          {...field}
+                          value={field.value || ''}
+                        />
                       )}
                     />
                     <div className="bg-[url('https://placehold.co/300x300?text=Insira+a+imagem')] aspect-square mt-4 rounded-2xl bg-cover">
@@ -183,9 +197,9 @@ const NewProductModal = () => {
                     <Controller
                       control={control}
                       name="name"
-                      render={({ field }) => (
-                        <Input isRequired label="Nome" {...field} />
-                      )}
+                      render={({ field }) => {
+                        return <Input isRequired label="Nome" {...field} />;
+                      }}
                     />
                     <Controller
                       control={control}
@@ -227,14 +241,23 @@ const NewProductModal = () => {
                       control={control}
                       name="store"
                       render={({ field }) => (
-                        <Input label="Nome da Loja" {...field} />
+                        <Input
+                          label="Nome da Loja"
+                          {...field}
+                          value={field.value || ''}
+                        />
                       )}
                     />
                     <Controller
                       control={control}
                       name="priority"
                       render={({ field }) => (
-                        <Select label="Prioridade" {...field}>
+                        <Select
+                          label="Prioridade"
+                          {...field}
+                          selectedKeys={field.value ? [field.value] : []}
+                          value={field.value || ''}
+                        >
                           {priorities.map((priority) => (
                             <SelectItem key={priority.key}>
                               {priority.label}

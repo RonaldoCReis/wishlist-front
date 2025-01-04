@@ -21,11 +21,13 @@ const UserLayout = async ({ params, children }: Props & PropsWithChildren) => {
   const { username } = await params;
   const clerkUser = await currentUser();
 
+  const { USER_PATH, findByUsername } = userService;
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['user', username],
-    queryFn: () => userService.findByUsername(username),
+    queryKey: [USER_PATH, username],
+    queryFn: () => findByUsername(username),
   });
 
   return (

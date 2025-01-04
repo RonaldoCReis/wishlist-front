@@ -24,9 +24,11 @@ const UserHeader = ({ clerkUser }: UserHeaderProps) => {
 
   const isTheOwner = clerkUser?.username === username;
 
+  const { USER_PATH, findByUsername } = userService;
+
   const { data: user } = useQuery({
-    queryKey: ['user', username],
-    queryFn: () => userService.findByUsername(username as string),
+    queryKey: [USER_PATH, username],
+    queryFn: () => findByUsername(username as string),
   });
 
   return (
