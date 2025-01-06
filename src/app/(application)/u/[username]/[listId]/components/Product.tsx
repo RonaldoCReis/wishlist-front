@@ -1,6 +1,6 @@
 import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/react';
-import { Product as ProductType } from '@ronaldocreis/wishlist-schema';
+import { List, Product as ProductType } from '@ronaldocreis/wishlist-schema';
 import Link from 'next/link';
 import React from 'react';
 import { Button } from '@nextui-org/button';
@@ -9,7 +9,7 @@ import { DotsThree } from '@phosphor-icons/react/dist/ssr';
 import ProductActions from './ProductActions';
 
 type ProductProps = {
-  product: ProductType;
+  product: List['products'][number] | ProductType;
 };
 
 const Product = ({ product }: ProductProps) => {

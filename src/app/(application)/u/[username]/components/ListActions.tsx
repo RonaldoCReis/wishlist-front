@@ -9,14 +9,14 @@ import {
 import { Copy, Pencil, Trash } from '@phosphor-icons/react/dist/ssr';
 import React, { ReactNode } from 'react';
 import { useParams } from 'next/navigation';
-import { User } from '@ronaldocreis/wishlist-schema';
+import { List, User } from '@ronaldocreis/wishlist-schema';
 
 import { useNewListModal } from '@/state/newListModal';
 import { useConfirmModal } from '@/state/confirmModal';
 import { useRemoveList } from '@/hooks/queries/useList';
 
 type ListActionsProps = {
-  list: User['lists'][number];
+  list: User['lists'][number] | List;
   children: ReactNode;
 };
 

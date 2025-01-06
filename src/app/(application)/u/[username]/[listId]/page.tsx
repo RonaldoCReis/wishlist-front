@@ -3,6 +3,7 @@ import { Input } from '@nextui-org/input';
 import { DotsThree, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@nextui-org/button';
 import { useParams } from 'next/navigation';
+import { useQueryState } from 'nuqs';
 
 import ListActions from '../components/ListActions';
 
@@ -14,6 +15,7 @@ import { useList } from '@/hooks/queries/useList';
 const ListPage = () => {
   const { listId } = useParams();
   const { data: list } = useList(listId as string);
+  const [search, setSearch] = useQueryState('search');
 
   if (!list) {
     return null;
@@ -28,6 +30,8 @@ const ListPage = () => {
             className="w-72"
             placeholder="Buscar Produtos"
             startContent={<MagnifyingGlass size={24} />}
+            value={search || ''}
+            onChange={(e) => setSearch(e.target.value || null)}
           />
           <OrderBySelect />
 

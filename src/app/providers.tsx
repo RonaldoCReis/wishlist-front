@@ -8,6 +8,7 @@ import { ThemeProviderProps } from 'next-themes/dist/types';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ptBR } from '@clerk/localizations';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -33,9 +34,11 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <ClerkProvider localization={ptBR}>
       <QueryClientProvider client={queryClient}>
-        <NextUIProvider navigate={router.push}>
-          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-        </NextUIProvider>
+        <NuqsAdapter>
+          <NextUIProvider navigate={router.push}>
+            <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+          </NextUIProvider>
+        </NuqsAdapter>
       </QueryClientProvider>
     </ClerkProvider>
   );
