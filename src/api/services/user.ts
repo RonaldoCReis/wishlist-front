@@ -1,4 +1,4 @@
-import { User } from '@ronaldocreis/wishlist-schema';
+import { User, Users, UsersQuery } from '@ronaldocreis/wishlist-schema';
 
 import { api } from '../api';
 
@@ -10,7 +10,14 @@ const findByUsername = async (username: User['username']) => {
   return response;
 };
 
+const findAll = async (query?: UsersQuery) => {
+  const response = await api.get<Users>(USER_PATH, query);
+
+  return response;
+};
+
 export const userService = {
   USER_PATH,
   findByUsername,
+  findAll,
 };

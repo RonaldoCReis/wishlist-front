@@ -1,5 +1,7 @@
 // import axios from 'axios';
 
+import { filterObjectUndefinedValues } from '@/utils/filterObjectUndefinedValues';
+
 // import { withInterceptors } from './interceptors';
 
 // export const axiosInstance = axios.create({
@@ -33,9 +35,13 @@ class Api {
   }
 
   async get<T>(path: string, params?: {}) {
+    const filteredParams = filterObjectUndefinedValues(params);
+
     const response = await fetch(
-      `
-      ${this.baseURL}${path}?${new URLSearchParams(params).toString()}`,
+      filteredParams
+        ? `
+      ${this.baseURL}${path}?${new URLSearchParams(filteredParams).toString()}`
+        : `${this.baseURL}${path}`,
       {
         method: 'GET',
         headers: this.getHeadersJson(),

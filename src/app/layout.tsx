@@ -40,7 +40,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <NextTopLoader />
+        <NextTopLoader color="#aaa" showSpinner={false} />
         <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
           <ReactQueryDevtools position="right" />
           {children}

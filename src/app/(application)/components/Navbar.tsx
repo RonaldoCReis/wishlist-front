@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Tooltip } from '@nextui-org/tooltip';
 import { Button } from '@nextui-org/button';
 
-import { useNavItems } from '../u/[username]/hooks/useNavItems';
+import { useNavItems } from '../hooks/useNavItems';
 
 import { useWindowSize } from '@/hooks/useWindowSize';
 
