@@ -9,10 +9,12 @@ import {
 import { Copy, Pencil, Trash } from '@phosphor-icons/react/dist/ssr';
 import React, { ReactNode } from 'react';
 import { List, Product } from '@ronaldocreis/wishlist-schema';
+import clsx from 'clsx';
 
 import { useConfirmModal } from '@/state/confirmModal';
 import { useNewProductModal } from '@/state/newProductModal';
 import { useRemoveProduct } from '@/hooks/queries/useProduct';
+import { useIsTheOwner } from '@/hooks/useIsTheOwner';
 
 type ProductActionsProps = {
   product: List['products'][number] | Product;
@@ -24,11 +26,13 @@ const ProductActions = ({ product, children }: ProductActionsProps) => {
   const { openNewProductModal } = useNewProductModal();
   const removeProduct = useRemoveProduct();
 
+  const isTheOwner = useIsTheOwner();
+
   return (
     <Dropdown>
       <DropdownTrigger>{children}</DropdownTrigger>
       <DropdownMenu aria-label="Ações" variant="bordered">
-        <DropdownSection showDivider title={'Ações'}>
+        <DropdownSection showDivider={isTheOwner} title={'Ações'}>
           <DropdownItem
             key="copy"
             description="Mostre este produto para o mundo"
@@ -42,6 +46,7 @@ const ProductActions = ({ product, children }: ProductActionsProps) => {
           </DropdownItem>
           <DropdownItem
             key="edit"
+            className={clsx({ hidden: !isTheOwner })}
             description="Faça alterações neste produto"
             shortcut="⌘E"
             startContent={<Pencil size={24} />}
@@ -50,7 +55,7 @@ const ProductActions = ({ product, children }: ProductActionsProps) => {
             Editar Produto
           </DropdownItem>
         </DropdownSection>
-        <DropdownSection>
+        <DropdownSection className={clsx({ hidden: !isTheOwner })}>
           <DropdownItem
             key="delete"
             className="text-danger"

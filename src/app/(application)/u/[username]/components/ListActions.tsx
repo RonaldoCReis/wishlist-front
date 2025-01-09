@@ -10,10 +10,12 @@ import { Copy, Pencil, Trash } from '@phosphor-icons/react/dist/ssr';
 import React, { ReactNode } from 'react';
 import { useParams } from 'next/navigation';
 import { List, User } from '@ronaldocreis/wishlist-schema';
+import clsx from 'clsx';
 
 import { useNewListModal } from '@/state/newListModal';
 import { useConfirmModal } from '@/state/confirmModal';
 import { useRemoveList } from '@/hooks/queries/useList';
+import { useIsTheOwner } from '@/hooks/useIsTheOwner';
 
 type ListActionsProps = {
   list: User['lists'][number] | List;
@@ -28,11 +30,13 @@ const ListActions = ({ list, children }: ListActionsProps) => {
   const params = useParams();
   const { username } = params;
 
+  const isTheOwner = useIsTheOwner();
+
   return (
     <Dropdown>
       <DropdownTrigger>{children}</DropdownTrigger>
       <DropdownMenu aria-label="Ações" variant="bordered">
-        <DropdownSection showDivider title={'Ações'}>
+        <DropdownSection showDivider={isTheOwner} title={'Ações'}>
           <DropdownItem
             key="copy"
             description="Mostre esta lista para o mundo"
@@ -48,6 +52,7 @@ const ListActions = ({ list, children }: ListActionsProps) => {
           </DropdownItem>
           <DropdownItem
             key="edit"
+            className={clsx({ hidden: !isTheOwner })}
             description="Faça alterações nesta lista"
             shortcut="⌘E"
             startContent={<Pencil size={24} />}
@@ -56,10 +61,10 @@ const ListActions = ({ list, children }: ListActionsProps) => {
             Editar Lista
           </DropdownItem>
         </DropdownSection>
-        <DropdownSection>
+        <DropdownSection className={clsx({ hidden: !isTheOwner })}>
           <DropdownItem
             key="delete"
-            className="text-danger"
+            className={'text-danger'}
             color="danger"
             description="Exclui esta lista permanentemente"
             shortcut="⌘⌫"
