@@ -20,13 +20,15 @@ const UserCard = ({ user }: UserCardProps) => {
     >
       <CardBody>
         <div className="flex items-center gap-4">
-          <Avatar
-            className="w-full h-full max-w-16"
-            src={user?.profileImageUrl || undefined}
-          />
+          <div className="size-16">
+            <Avatar
+              className="w-full h-full"
+              src={user?.profileImageUrl || undefined}
+            />
+          </div>
           <div>
             <h2 className="text-lg font-bold">@{user.username}</h2>
-            <span className="text-gray-600">{user?.firstName}</span>
+            <span className="text-gray-600">{user?.name}</span>
           </div>
         </div>
       </CardBody>

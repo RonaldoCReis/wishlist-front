@@ -14,7 +14,7 @@ services:
           path: package.json
     container_name: app-next
     ports:
-      - '3000:3000'
+      - '3334:3334'
     restart: unless-stopped
     environment:
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}

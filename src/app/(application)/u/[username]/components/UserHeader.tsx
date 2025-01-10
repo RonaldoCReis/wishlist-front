@@ -53,7 +53,7 @@ const UserHeader = ({ clerkUser }: UserHeaderProps) => {
           <h1 className="text-lg font-bold">
             <Link href={`/u/${username}`}>@{user?.username}</Link>
           </h1>
-          <span className="text-gray-600">{user?.firstName}</span>
+          <span className="text-gray-600">{user?.name}</span>
         </div>
         {isTheOwner && <Button className="ml-auto">Editar Perfil</Button>}
       </div>

@@ -1,12 +1,5 @@
 import { useUser } from '@clerk/nextjs';
-import {
-  Bookmark,
-  Gear,
-  House,
-  Icon,
-  MagnifyingGlass,
-  TrendUp,
-} from '@phosphor-icons/react';
+import { Bookmark, House, Icon, MagnifyingGlass } from '@phosphor-icons/react';
 
 type NavItem = {
   label: string;
@@ -31,16 +24,6 @@ export const useNavItems = () => {
       label: 'Salvos',
       href: '/saved',
       icon: Bookmark,
-    },
-    {
-      label: 'Analytics',
-      href: '/analytics',
-      icon: TrendUp,
-    },
-    {
-      label: 'Configurações',
-      href: '/settings',
-      icon: Gear,
     },
   ];
 

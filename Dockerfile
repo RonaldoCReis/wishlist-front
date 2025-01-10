@@ -32,8 +32,8 @@ COPY . .
 
 # RUN yarn
 
-# Expondo a porta 3000
-EXPOSE 3000
+# Expondo a porta 3334
+EXPOSE 3334
 
 # Comando para iniciar a aplicação
 # CMD ["yarn", "start"]
