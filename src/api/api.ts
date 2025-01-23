@@ -1,15 +1,5 @@
-// import axios from 'axios';
-
 import { filterObjectUndefinedValues } from '@/utils/filterObjectUndefinedValues';
 
-// import { withInterceptors } from './interceptors';
-
-// export const axiosInstance = axios.create({
-//   baseURL: process.env.API_URL,
-//   timeout: 30000,
-// });
-
-// export const api = withInterceptors(axiosInstance);
 type Options = {
   isFormData?: boolean;
 };
@@ -53,21 +43,21 @@ class Api {
     return response.json() as Promise<T>;
   }
 
-  async post<T>(path: string, body: any) {
+  async post<T>(path: string, body: any, options?: Options) {
     const response = await fetch(this.baseURL + path, {
       method: 'POST',
-      body: JSON.stringify(body),
-      headers: this.getHeadersJson(),
+      body: options?.isFormData ? body : JSON.stringify(body),
+      headers: options?.isFormData ? this.getHeaders() : this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;
   }
 
-  async put<T>(path: string, body: any) {
+  async put<T>(path: string, body: any, options?: Options) {
     const response = await fetch(this.baseURL + path, {
       method: 'PUT',
-      body: JSON.stringify(body),
-      headers: this.getHeadersJson(),
+      body: options?.isFormData ? body : JSON.stringify(body),
+      headers: options?.isFormData ? this.getHeaders() : this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;
@@ -83,7 +73,6 @@ class Api {
   }
 
   async patch<T>(path: string, body: any, options?: Options) {
-    console.log(options?.isFormData);
     const response = await fetch(this.baseURL + path, {
       method: 'PATCH',
       body: options?.isFormData ? body : JSON.stringify(body),
