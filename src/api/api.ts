@@ -10,7 +10,9 @@ import { filterObjectUndefinedValues } from '@/utils/filterObjectUndefinedValues
 // });
 
 // export const api = withInterceptors(axiosInstance);
-
+type Options = {
+  isFormData?: boolean;
+};
 class Api {
   private baseURL: string;
   private token: string;
@@ -80,11 +82,12 @@ class Api {
     return response.json() as Promise<T>;
   }
 
-  async patch<T>(path: string, body: any) {
+  async patch<T>(path: string, body: any, options?: Options) {
+    console.log(options?.isFormData);
     const response = await fetch(this.baseURL + path, {
       method: 'PATCH',
-      body: JSON.stringify(body),
-      headers: this.getHeadersJson(),
+      body: options?.isFormData ? body : JSON.stringify(body),
+      headers: options?.isFormData ? this.getHeaders() : this.getHeadersJson(),
     });
 
     return response.json() as Promise<T>;

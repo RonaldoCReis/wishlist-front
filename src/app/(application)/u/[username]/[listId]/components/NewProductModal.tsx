@@ -176,6 +176,7 @@ const NewProductModal = () => {
                       name="imageUrl"
                       render={({ field }) => (
                         <Input
+                          isDisabled={!productUrl}
                           label="URL da imagem"
                           {...field}
                           value={field.value || ''}
@@ -186,7 +187,7 @@ const NewProductModal = () => {
                       <Image
                         removeWrapper
                         alt={editingProduct?.name}
-                        className="object-cover"
+                        className="object-cover opacity-100"
                         height={'100%'}
                         src={imageUrl || undefined}
                         width={'100%'}
@@ -198,7 +199,14 @@ const NewProductModal = () => {
                       control={control}
                       name="name"
                       render={({ field }) => {
-                        return <Input isRequired label="Nome" {...field} />;
+                        return (
+                          <Input
+                            isRequired
+                            isDisabled={!productUrl}
+                            label="Nome"
+                            {...field}
+                          />
+                        );
                       }}
                     />
                     <Controller
@@ -206,6 +214,7 @@ const NewProductModal = () => {
                       name="price"
                       render={({ field }) => (
                         <Input
+                          isDisabled={!productUrl}
                           label="Preço"
                           startContent={
                             <div className="flex items-center">
@@ -213,6 +222,7 @@ const NewProductModal = () => {
                                 Currency
                               </label>
                               <select
+                                disabled
                                 className="outline-none border-0 bg-transparent text-default-400 text-small"
                                 id="currency"
                                 name="currency"
@@ -242,6 +252,7 @@ const NewProductModal = () => {
                       name="store"
                       render={({ field }) => (
                         <Input
+                          isDisabled={!productUrl}
                           label="Nome da Loja"
                           {...field}
                           value={field.value || ''}
@@ -253,6 +264,7 @@ const NewProductModal = () => {
                       name="priority"
                       render={({ field }) => (
                         <Select
+                          isDisabled={!productUrl}
                           label="Prioridade"
                           {...field}
                           selectedKeys={field.value ? [field.value] : []}
@@ -272,6 +284,7 @@ const NewProductModal = () => {
                       render={({ field }) => (
                         <Textarea
                           className="h-full [&>div]:!h-full"
+                          isDisabled={!productUrl}
                           label="Observações"
                           placeholder='Ex: "Tamanho M", "Cor Azul"'
                           {...field}

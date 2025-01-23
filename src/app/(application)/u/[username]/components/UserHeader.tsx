@@ -8,7 +8,10 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { User } from '@clerk/nextjs/server';
 
+import UpdateUserImageForm from './UpdateUserImageForm';
+
 import { userService } from '@/api/services/user';
+import { useEditUserModal } from '@/state/editUserModal';
 
 type UserHeaderProps = {
   clerkUser: User | null;
@@ -17,6 +20,8 @@ type UserHeaderProps = {
 const UserHeader = ({ clerkUser }: UserHeaderProps) => {
   const params = useParams();
   const pathname = usePathname();
+
+  const { openEditUserModal } = useEditUserModal();
 
   const { username } = params;
 
@@ -44,18 +49,31 @@ const UserHeader = ({ clerkUser }: UserHeaderProps) => {
             height: isMainPage ? 80 : 56,
           }}
         >
-          <Avatar
-            className={'w-full h-full'}
-            src={user?.profileImageUrl || undefined}
-          />
+          <UpdateUserImageForm canEdit={isTheOwner}>
+            <Avatar
+              className={'w-full h-full'}
+              src={user?.profileImageUrl || undefined}
+            />
+          </UpdateUserImageForm>
         </motion.div>
         <div>
           <h1 className="text-lg font-bold">
             <Link href={`/u/${username}`}>@{user?.username}</Link>
           </h1>
           <span className="text-gray-600">{user?.name}</span>
+          <motion.p
+            animate={{ maxHeight: isMainPage ? 100 : 0 }}
+            className="text-gray-600 text-sm max-w-sm whitespace-pre-wrap line-clamp-3"
+            initial={{ maxHeight: isMainPage ? 100 : 0 }}
+          >
+            {user?.bio}
+          </motion.p>
         </div>
-        {isTheOwner && <Button className="ml-auto">Editar Perfil</Button>}
+        {isTheOwner && (
+          <Button className="ml-auto" onPress={openEditUserModal}>
+            Editar Perfil
+          </Button>
+        )}
       </div>
     </div>
   );

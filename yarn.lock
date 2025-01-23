@@ -3404,9 +3404,9 @@
     "@react-types/shared" "^3.26.0"
 
 "@ronaldocreis/wishlist-schema@^1.0.0":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@ronaldocreis/wishlist-schema/-/wishlist-schema-1.1.3.tgz#e088fa27256d86fb845cb8567535417412b2d170"
-  integrity sha512-wGgRF1+BCbTuaH8gaw2ALO+0lKPpBiNDUQga7wouoTala+uk/o+QScIDgsqVrxJAVY9NjkS6mEuiM/anWnpEGw==
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@ronaldocreis/wishlist-schema/-/wishlist-schema-1.1.6.tgz#ed59d04d13cd6582b79de3c5a418e054442750de"
+  integrity sha512-Le5PhTzcd6zCAz0n4rESa9ufSSGSGBvps7/jrqG/NsT/8gdTMSo8+x0rRvebYORSRcH5Bwe/gBrKmRxoIh4xgA==
   dependencies:
     zod "^3.23.8"
 

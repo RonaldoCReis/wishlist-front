@@ -8,6 +8,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 import UserHeader from './components/UserHeader';
 import NewListModal from './components/NewListModal';
+import EditUserModal from './components/EditUserModal';
 
 import { userService } from '@/api/services/user';
 
@@ -34,6 +35,7 @@ const UserLayout = async ({ params, children }: Props & PropsWithChildren) => {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <UserHeader clerkUser={JSON.parse(JSON.stringify(clerkUser))} />
       <NewListModal />
+      <EditUserModal />
       {children}
     </HydrationBoundary>
   );
