@@ -1,5 +1,5 @@
 import { useUser } from '@clerk/nextjs';
-import { Bookmark, House, Icon, MagnifyingGlass } from '@phosphor-icons/react';
+import { House, Icon, MagnifyingGlass } from '@phosphor-icons/react';
 
 type NavItem = {
   label: string;
@@ -19,11 +19,6 @@ export const useNavItems = () => {
       label: 'Buscar',
       href: '/search',
       icon: MagnifyingGlass,
-    },
-    {
-      label: 'Salvos',
-      href: '/saved',
-      icon: Bookmark,
     },
   ];
 
